@@ -25,6 +25,7 @@ $config = [
 
 //接入自动回复
 (new \weixin\Weixin($config))->getResponsor()->run();
+
 ```
 
 ### 框架接入
