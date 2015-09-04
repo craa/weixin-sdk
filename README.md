@@ -6,7 +6,7 @@ PHP >= 5.4
 
 ## 快速开始
 
-### 单脚本接入
+### 脚本接入
 ```php
 <?php
 require 'weixin/Weixin.php';
