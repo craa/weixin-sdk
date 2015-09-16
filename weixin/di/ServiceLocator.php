@@ -226,6 +226,7 @@ class ServiceLocator extends Component
     public function setComponents($components)
     {
         foreach ($components as $id => $component) {
+            $component['guid'] = static::getGuid();
             $this->set($id, $component);
         }
     }

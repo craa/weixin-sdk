@@ -31,9 +31,6 @@
 					'account' => [
 						'token' => 'weixin',
 					],
-			        'responsor' => [
-			            'debug' => true,
-			        ],
 			    ],
 			];
 	
@@ -59,9 +56,6 @@
 						'appid' => '',
 						'appsecret' => '',
 					),
-					'responsor' => array(
-			            'debug' => true,
-			        ),
 				),
 			),
 		),

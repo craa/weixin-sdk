@@ -13,5 +13,15 @@ namespace weixin\base;
  */
 class Component extends Object
 {
+    protected $_guid;
 
+    public function getGuid()
+    {
+        return $this->_guid;
+    }
+
+    public function setGuid($guid)
+    {
+        $this->_guid = $guid;
+    }
 }

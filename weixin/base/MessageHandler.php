@@ -15,5 +15,5 @@ use weixin\messages\request\BaseMessage;
  */
 interface MessageHandler
 {
-    public function handle($responsor, $messag);
+    public function handle($message);
 }

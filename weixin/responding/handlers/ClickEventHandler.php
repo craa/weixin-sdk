@@ -22,14 +22,13 @@ use weixin\messages\request\ClickEvent;
 class ClickEventHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param ClickEvent $ClickEvent
      * @return BaseMessage
      */
-    public function handle($responsor, $ClickEvent)
+    public function handle($ClickEvent)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($ClickEvent);
             $content = "消息属性：\n";
             foreach($ClickEvent as $key=>$value)

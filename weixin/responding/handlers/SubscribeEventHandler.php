@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class SubscribeEventHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param SubscribeEvent $SubscribeEvent 关注事件消息
+     * @return TextMsg
      */
-    public function handle($responsor, $SubscribeEvent)
+    public function handle($SubscribeEvent)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($SubscribeEvent);
             $content = "消息属性：\n";
             foreach($SubscribeEvent as $key=>$value)

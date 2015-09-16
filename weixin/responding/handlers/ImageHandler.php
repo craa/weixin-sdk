@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class ImageHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param Image $image 图像消息
+     * @return TextMsg
      */
-    public function handle($responsor, $image)
+    public function handle($image)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($image);
             $content = "消息属性：\n";
             foreach($image as $key=>$value)

@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class LocationHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param Location $Location 地理位置消息
+     * @return TextMsg
      */
-    public function handle($responsor, $Location)
+    public function handle($Location)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($Location);
             $content = "消息属性：\n";
             foreach($Location as $key=>$value)

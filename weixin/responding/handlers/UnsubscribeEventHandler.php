@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class UnsubscribeEventHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param UnsubscribeEvent $UnsubscribeEvent 取消关注事件消息
+     * @return TextMsg
      */
-    public function handle($responsor, $UnsubscribeEvent)
+    public function handle($UnsubscribeEvent)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($UnsubscribeEvent);
             $content = "消息属性：\n";
             foreach($UnsubscribeEvent as $key=>$value)

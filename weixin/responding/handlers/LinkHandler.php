@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class LinkHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param Link $link 链接消息
+     * @return Textmsg
      */
-    public function handle($responsor, $link)
+    public function handle($link)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($link);
             $content = "消息属性：\n";
             foreach($link as $key=>$value)

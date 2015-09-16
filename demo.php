@@ -15,9 +15,6 @@ $config = [
             'appid' => '',
             'appsecret' => '',
         ],
-        'responsor' => [
-            'debug' => true,
-        ],
     ],
 ];
 

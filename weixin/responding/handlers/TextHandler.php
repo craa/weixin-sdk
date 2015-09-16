@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class TextHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param Text $text 文本消息
+     * @return TextMsg
      */
-    public function handle($responsor, $text)
+    public function handle($text)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($text);
             $content = "消息属性：\n";
             foreach($text as $key=>$value)

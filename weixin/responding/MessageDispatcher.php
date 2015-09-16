@@ -35,12 +35,11 @@ use weixin\Weixin;
 class MessageDispatcher extends Component
 {
     /**
-     * @param Responsor $responsor
      * @param $message
      * @return Model
      * @throws Exception
      */
-    public function dispatch($responsor, $message)
+    public function dispatch($message)
     {
         if (!isset($message['MsgType'])) {
             throw new Exception('the format of the message from weixin server is wrong!');
@@ -99,6 +98,6 @@ class MessageDispatcher extends Component
         }
 
         $msg->load($message);
-        return $responsor->get($msg->getHandlerName())->handle($responsor, $msg);
+        return Weixin::app($this)->getResponsor()->get($msg->getHandlerName())->handle($msg);
     }
 }

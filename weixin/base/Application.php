@@ -16,16 +16,6 @@ use weixin\Weixin;
  */
 class Application extends ServiceLocator
 {
-    /**
-     * @var Weixin 微信应用实例
-     */
-    private $_weixin;
-
-    /**
-     * @var bool 是否开启调试模式
-     */
-    public $debug = false;
-
     public function __construct($config = [])
     {
         $this->preInit($config);
@@ -59,24 +49,6 @@ class Application extends ServiceLocator
     protected function registerErrorHandler(&$config)
     {
 
-    }
-
-    protected function setWeixin($weixinInstance)
-    {
-        $this->_weixin = $weixinInstance;
-    }
-
-    public function getWeixin()
-    {
-        return $this->_weixin;
-    }
-
-    /**
-     * @return bool 判断调试模式是否开启
-     */
-    public function isDebug()
-    {
-        return $this->debug;
     }
 
     public function coreComponents()

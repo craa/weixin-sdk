@@ -1,9 +1,13 @@
 <?php
 
-namespace weixin\helpers;
+namespace weixin\base;
 
-use weixin\base\Component;
-
+/**
+ * Class Curl
+ *
+ * @author Chen Hongwei <crains@qq.com>
+ * @since 1.0
+ */
 class Curl extends Component
 {
     const VERSION = '4.6.9';
@@ -51,7 +55,8 @@ class Curl extends Component
      * Construct
      *
      * @access public
-     * @param  $base_url
+     * @param string $base_url
+     * @param array $config
      * @throws \ErrorException
      */
     public function __construct($base_url = null, $config = [])
@@ -552,6 +557,7 @@ class Curl extends Component
      *
      * @access public
      * @param  $key
+     * @return null
      */
     public function getCookie($key)
     {
@@ -563,6 +569,7 @@ class Curl extends Component
      *
      * @access public
      * @param  $key
+     * @return string|null
      */
     public function getResponseCookie($key)
     {
@@ -621,9 +628,9 @@ class Curl extends Component
     public function setDefaultJsonDecoder()
     {
         $this->jsonDecoder = function($response) {
-            $json_obj = json_decode($response, false);
-            if (!($json_obj === null)) {
-                $response = $json_obj;
+            $json_arr = json_decode($response, true);
+            if (!($json_arr === null)) {
+                $response = $json_arr;
             }
             return $response;
         };
@@ -896,7 +903,7 @@ class Curl extends Component
             } elseif (preg_match($this->xmlPattern, $response_headers['Content-Type'])) {
                 $xml_obj = @simplexml_load_string($response);
                 if (!($xml_obj === false)) {
-                    $response = $xml_obj;
+                    $response = (array)$xml_obj;
                 }
             }
         }

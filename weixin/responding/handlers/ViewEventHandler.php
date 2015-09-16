@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class ViewEventHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param ViewEvent $ViewEvent 点击菜单跳转链接事件消息
+     * @return TextMsg
      */
-    public function handle($responsor, $ViewEvent)
+    public function handle($ViewEvent)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($ViewEvent);
             $content = "消息属性：\n";
             foreach($ViewEvent as $key=>$value)

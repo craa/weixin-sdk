@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class VideoHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param Video $Video 视频消息
+     * @return TextMsg
      */
-    public function handle($responsor, $Video)
+    public function handle($Video)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($Video);
             $content = "消息属性：\n";
             foreach($Video as $key=>$value)

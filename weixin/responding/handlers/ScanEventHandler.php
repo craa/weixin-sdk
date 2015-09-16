@@ -21,13 +21,13 @@ use weixin\responding\Responsor;
 class ScanEventHandler extends Component implements MessageHandler
 {
     /**
-     * @param Responsor $responsor 响应器
      * @param ScanEvent $ScanEvent 扫描带参数二维码消息
+     * @return TextMsg
      */
-    public function handle($responsor, $ScanEvent)
+    public function handle($ScanEvent)
     {
         $msg = '';
-        if($responsor->isDebug()){
+        if(Weixin::app($this)->isDebug()){
             $msg = new TextMsg($ScanEvent);
             $content = "消息属性：\n";
             foreach($ScanEvent as $key=>$value)

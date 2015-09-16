@@ -18,6 +18,55 @@ use weixin\responding\Responsor;
 class Weixin extends Application
 {
     /**
+     * @var bool 是否开启调试模式
+     */
+    public $debug = false;
+
+    private static $_apps = [];
+
+    public function __construct($config = [])
+    {
+        parent::__construct($config);
+        self::$_apps[$this->getGuid()] = $this;
+    }
+
+    /**
+     * 根据GUID获取微信应用实例
+     * @param Component $component
+     * @return Weixin|null
+     * @throws Exception
+     */
+    public static function app(Component $component)
+    {
+        if(isset(self::$_apps[$component->getGuid()])){
+            return self::$_apps[$component->getGuid()];
+        }else{
+            throw new Exception('invalid GUID, only the component from Weixin instance can find its parent APP');
+        }
+    }
+
+    /**
+     * 获取APP唯一ID
+     * @return mixed
+     */
+    public function getGuid()
+    {
+        if(empty($this->_guid)){
+            $this->setGuid(mt_rand(100000, 999999));
+        }
+
+        return $this->_guid;
+    }
+
+    /**
+     * @return bool 判断调试模式是否开启
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
      * @return Account 微信公众账号组件
      */
     public function getAccount()
@@ -31,7 +80,6 @@ class Weixin extends Application
     public function getResponsor()
     {
         $responsor = $this->get('responsor');
-        $responsor->setWeixin($this);
         return $responsor;
     }
 

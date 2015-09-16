@@ -25,14 +25,6 @@ class Responsor extends Application
     }
 
     /**
-     * @return bool 是否开启调试模式
-     */
-    public function isDebug()
-    {
-        return $this->getWeixin()->debug && $this->debug;
-    }
-
-    /**
      * 执行微信请求响应器应用
      */
     public function run()
@@ -49,7 +41,7 @@ class Responsor extends Application
     public function handleRequest($request)
     {
         $result = '';
-        if ($request->checkSignature($this->getWeixin()->getAccount()->getToken())) {
+        if ($request->checkSignature(Weixin::app($this)->getAccount()->getToken())) {
             if($request->isVerify()) {
                 $result = $request->verifyStr();
             }else{
@@ -74,7 +66,7 @@ class Responsor extends Application
      */
     public function handleMessage($message)
     {
-        return $this->getMessageDispatcher()->dispatch($this, $message);
+        return $this->getMessageDispatcher()->dispatch($message);
     }
 
     /**
