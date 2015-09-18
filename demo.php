@@ -14,10 +14,9 @@ $config = [
             'token' => 'weixin',
             'appid' => '',
             'appsecret' => '',
+            'encodingAesKey' => '',
         ],
     ],
 ];
 
 (new \weixin\Weixin($config))->getResponsor()->run();
-
-

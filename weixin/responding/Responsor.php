@@ -21,7 +21,6 @@ class Responsor extends Application
 {
     public function init()
     {
-
     }
 
     /**
@@ -41,10 +40,10 @@ class Responsor extends Application
     public function handleRequest($request)
     {
         $result = '';
-        if ($request->checkSignature(Weixin::app($this)->getAccount()->getToken())) {
-            if($request->isVerify()) {
-                $result = $request->verifyStr();
-            }else{
+        if ($request->checkSignature()) {
+            if ($request->isVerify()) {
+                $result = $request->getVerifyStr();
+            } else {
                 $result = $this->handleMessage($request->getRequestMessage());
             }
         }
@@ -88,6 +87,15 @@ class Responsor extends Application
     }
 
     /**
+     * @return MessageEncryptor 消息加解密组件
+     * @throws \weixin\base\Exception
+     */
+    public function getMessageEncryptor()
+    {
+        return $this->get('messageEncryptor');
+    }
+
+    /**
      * @return MessageDispatcher 消息分配器组件
      * @throws \weixin\base\Exception
      */
@@ -101,6 +109,7 @@ class Responsor extends Application
         return array_merge(parent::coreComponents(), [
             'request' => ['class' => 'weixin\responding\Request'],
             'response' => ['class' => 'weixin\responding\Response'],
+            'messageEncryptor' => ['class' => 'weixin\responding\MessageEncryptor'],
             'messageDispatcher' => ['class' => 'weixin\responding\MessageDispatcher'],
             'textHandler' => ['class' => 'weixin\responding\handlers\TextHandler'],
             'imageHandler' => ['class' => 'weixin\responding\handlers\ImageHandler'],

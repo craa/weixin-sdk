@@ -17,6 +17,11 @@ class Account extends Component
     public $appid;
     public $appsecret;
     /**
+     * @var string 公众平台上，开发者设置的EncodingAESKey，当encryptType为2时生效
+     */
+    public $encodingAesKey;
+
+    /**
      * @var string 缓存组件
      */
     public $cache = 'cache';

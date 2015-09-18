@@ -7,7 +7,9 @@ namespace weixin\responding;
 
 use weixin\base\Component;
 use weixin\base\Exception;
+use weixin\base\Weixin;
 use weixin\messages\response\BaseMessage;
+use weixin\responding\encryption\ErrorCode;
 
 /**
  * Class Response 响应模型
@@ -30,6 +32,12 @@ class Response extends Component
         }
 
         $this->header();
+        if(Weixin::app($this)->getResponsor()->getRequest()->isEncryptMsg()){
+            $status = Weixin::app($this)->getResponsor()->getMessageEncryptor()->encryptMsg($res, time(), rand(1000, 9999), $res);
+            if($status != ErrorCode::$OK){
+                throw new Exception('Encrypt message error', $status);
+            }
+        }
         echo $res;
     }
 

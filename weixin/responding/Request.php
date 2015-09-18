@@ -7,6 +7,7 @@ namespace weixin\responding;
 
 use weixin\base\Component;
 use weixin\base\Exception;
+use weixin\responding\encryption\ErrorCode;
 use weixin\Weixin;
 
 /**
@@ -328,7 +329,7 @@ class Request extends Component
      */
     public function getServerPort()
     {
-        return (int) $_SERVER['SERVER_PORT'];
+        return (int)$_SERVER['SERVER_PORT'];
     }
 
     /**
@@ -522,7 +523,7 @@ class Request extends Component
                 if (strpos($param, '=') !== false) {
                     list ($key, $value) = explode('=', $param, 2);
                     if ($key === 'q') {
-                        $values['q'][2] = (double) $value;
+                        $values['q'][2] = (double)$value;
                     } else {
                         $values[$key] = $value;
                     }
@@ -585,20 +586,21 @@ class Request extends Component
      * 检查微信请求签名
      * @return bool
      */
-    public function checkSignature($token)
+    public function checkSignature()
     {
+        $token = Weixin::app($this)->getAccount()->getToken();
         $signature = $this->get('signature');
         $timestamp = $this->get('timestamp');
         $nonce = $this->get('nonce');
 
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
-        $tmpStr = implode( $tmpArr );
-        $tmpStr = sha1( $tmpStr );
+        $tmpStr = implode($tmpArr);
+        $tmpStr = sha1($tmpStr);
 
-        if( $tmpStr == $signature ){
+        if ($tmpStr == $signature) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -610,7 +612,7 @@ class Request extends Component
     public function isVerify()
     {
         $echostr = $this->get('echostr');
-        if(empty($echostr)){
+        if (empty($echostr)) {
             return false;
         }
 
@@ -618,20 +620,41 @@ class Request extends Component
     }
 
     /**
+     * 判断本次请求消息是否加密
+     * @return bool
+     */
+    public function isEncryptMsg()
+    {
+        return $this->get('encrypt_type') === 'aes';
+    }
+
+    /**
      * 验证字符串
      * @return string|null
      */
-    public function verifyStr()
+    public function getVerifyStr()
     {
         return $this->get('echostr');
     }
 
     /**
      * 获取用户消息
-     * @return \SimpleXMLElement
+     * @return \SimpleXMLElement|null
+     * @throws Exception
      */
     public function getRequestMessage()
     {
-        return (array)simplexml_load_string($this->getRawBody(), 'SimpleXMLElement', LIBXML_NOCDATA);
+        $rawMsg = $this->getRawBody();
+        if ($this->isEncryptMsg()) {
+            $msgSignature = $this->get('msg_signature');
+            $timestamp = $this->get('timestamp');
+            $nonce = $this->get('nonce');
+            $status = Weixin::app($this)->getResponsor()->getMessageEncryptor()->decryptMsg($msgSignature, $timestamp, $nonce, $this->getRawBody(), $rawMsg);
+            if ($status != ErrorCode::$OK) {
+                throw new Exception('Decrypt message error', $status);
+            }
+        }
+
+        return (array)simplexml_load_string($rawMsg, 'SimpleXMLElement', LIBXML_NOCDATA);
     }
 }

@@ -16,10 +16,8 @@ $config = [
     'components' => [
 		'account' => [
 			'token' => 'weixin',
+			'encodingAesKey' => '', //开启加密模式需要(mcrypt>=2.4.0)
 		],
-        'responsor' => [
-            'debug' => true,
-        ],
     ],
 ];
 
