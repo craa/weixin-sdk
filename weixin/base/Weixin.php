@@ -5,6 +5,7 @@
 
 namespace weixin\base;
 
+use weixin\api\ApiRequestor;
 use weixin\responding\Responsor;
 
 /**
@@ -38,9 +39,9 @@ class Weixin extends Application
      */
     public static function app(Component $component)
     {
-        if(isset(self::$_apps[$component->getGuid()])){
+        if (isset(self::$_apps[$component->getGuid()])) {
             return self::$_apps[$component->getGuid()];
-        }else{
+        } else {
             throw new Exception('invalid GUID, only the component from Weixin instance can find its parent APP');
         }
     }
@@ -51,7 +52,7 @@ class Weixin extends Application
      */
     public function getGuid()
     {
-        if(empty($this->_guid)){
+        if (empty($this->_guid)) {
             $this->setGuid(mt_rand(100000, 999999));
         }
 
@@ -79,8 +80,16 @@ class Weixin extends Application
      */
     public function getResponsor()
     {
-        $responsor = $this->get('responsor');
-        return $responsor;
+        return $this->get('responsor');
+    }
+
+    /**
+     * @return ApiRequestor 请求器
+     * @throws Exception
+     */
+    public function getApiRequestor()
+    {
+        return $this->get('apiRequestor');
     }
 
     public function coreComponents()
@@ -88,6 +97,7 @@ class Weixin extends Application
         return array_merge(parent::coreComponents(), [
             'account' => ['class' => 'weixin\base\Account'],
             'responsor' => ['class' => 'weixin\responding\Responsor'],
+            'apiRequestor' => ['class' => 'weixin\api\ApiRequestor'],
         ]);
     }
 

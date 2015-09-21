@@ -21,9 +21,13 @@ $config = [
     ],
 ];
 
-//接入自动回复
-(new \weixin\Weixin($config))->getResponsor()->run();
+$wxApp = new \weixin\Weixin($config);
 
+//接入自动回复
+$wxApp->getResponsor()->run();
+
+//获取AccessToken
+$accessToken = $wxApp->getApiRequestor()->getCommonAPI()->getAccessToken();
 ```
 
 ### 框架接入

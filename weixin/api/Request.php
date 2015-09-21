@@ -5,18 +5,30 @@
 
 namespace weixin\api;
 
-use weixin\base\Application;
+use weixin\base\Component;
 use weixin\base\Curl;
 use weixin\base\Exception;
+use weixin\Weixin;
 
 /**
- * Class Requestor API请求器
+ * Class Request API请求器
  *
  * @author Chen Hongwei <crains@qq.com>
  * @since 1.0
  */
-class Requestor extends Curl
+class Request extends Component
 {
+    /**
+     * @var Curl
+     */
+    public $curl;
+
+    public function init()
+    {
+        parent::init();
+        $this->curl = Weixin::app($this)->getApiRequestor()->getCurl();
+    }
+
     /**
      * Get
      *
@@ -28,7 +40,7 @@ class Requestor extends Curl
      */
     public function get($url, $data = [])
     {
-        $response = parent::get($url, $data);
+        $response = $this->curl->get($url, $data);
         if(isset($response['errcode'])){
             $this->handleAPIError($response);
         }
@@ -47,7 +59,7 @@ class Requestor extends Curl
      */
     public function post($url, $data = [])
     {
-        $response = parent::post($url, $data);
+        $response = $this->curlpost($url, $data);
         if(isset($response['errcode'])){
             $this->handleAPIError($response);
         }

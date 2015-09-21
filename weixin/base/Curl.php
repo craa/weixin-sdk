@@ -55,11 +55,10 @@ class Curl extends Component
      * Construct
      *
      * @access public
-     * @param string $base_url
      * @param array $config
      * @throws \ErrorException
      */
-    public function __construct($base_url = null, $config = [])
+    public function __construct($config = [])
     {
         if (!extension_loaded('curl')) {
             throw new \ErrorException('cURL library is not loaded');
@@ -74,7 +73,6 @@ class Curl extends Component
         $this->setOpt(CURLOPT_HEADERFUNCTION, array($this, 'headerCallback'));
         $this->setOpt(CURLOPT_RETURNTRANSFER, true);
         $this->headers = new CaseInsensitiveArray();
-        $this->setURL($base_url);
 
         parent::__construct($config);
     }
