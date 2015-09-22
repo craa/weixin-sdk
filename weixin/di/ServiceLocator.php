@@ -95,9 +95,11 @@ class ServiceLocator extends Component
 
         if (isset($this->_definitions[$id])) {
             $definition = $this->_definitions[$id];
-            if (is_object($definition) && !$definition instanceof \Closure) {
+            if (is_object($definition)) {
+                $definition->setGuid($this->getGuid());
                 return $this->_components[$id] = $definition;
             } else {
+                $definition['guid'] = $this->getGuid();
                 return $this->_components[$id] = Weixin::createObject($definition);
             }
         } elseif ($throwException) {
@@ -159,8 +161,8 @@ class ServiceLocator extends Component
 
         unset($this->_components[$id]);
 
-        if (is_object($definition) || is_callable($definition, true)) {
-            // an object, a class name, or a PHP callable
+        if (is_object($definition) && !$definition instanceof \Closure) {
+            // an object
             $this->_definitions[$id] = $definition;
         } elseif (is_array($definition)) {
             // a configuration array
@@ -226,7 +228,6 @@ class ServiceLocator extends Component
     public function setComponents($components)
     {
         foreach ($components as $id => $component) {
-            $component['guid'] = static::getGuid();
             $this->set($id, $component);
         }
     }
