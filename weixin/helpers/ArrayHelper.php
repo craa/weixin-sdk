@@ -8,7 +8,7 @@ namespace weixin\helpers;
 
 use weixin\base\Arrayable;
 use weixin\base\Exception;
-use weixin\base\Weixin;
+use weixin\Weixin;
 
 class ArrayHelper
 {

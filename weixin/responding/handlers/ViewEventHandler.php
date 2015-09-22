@@ -8,9 +8,8 @@ namespace weixin\responding\handlers;
 use weixin\base\Component;
 use weixin\base\MessageHandler;
 use weixin\messages\request\ViewEvent;
-use weixin\base\Weixin;
+use weixin\Weixin;
 use weixin\messages\response\TextMsg;
-use weixin\responding\Responsor;
 
 /**
  * Class ViewEventHandler 点击菜单跳转链接事件消息处理器

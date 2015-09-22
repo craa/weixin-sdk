@@ -13,7 +13,7 @@ require(__DIR__ . '/autoloader.php');
  * @author Chen Hongwei <crains@qq.com>
  * @since 1.0
  */
-class Weixin extends \weixin\base\Weixin
+class Weixin extends BaseWeixin
 {
 
 }

@@ -8,7 +8,7 @@ namespace weixin\api\common;
 use weixin\api\common\models\AccessToken;
 use weixin\api\common\models\IPList;
 use weixin\api\Request;
-use weixin\base\Weixin;
+use weixin\Weixin;
 
 /**
  * Class CommonAPI 微信公共接口

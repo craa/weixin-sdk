@@ -16,6 +16,9 @@ $config = [
             'appsecret' => 'd34bb0cd5a182896f2b626b21523cbe3',
             'encodingAesKey' => '',
         ],
+        'cache' => [
+            'class' => 'weixin\caching\FileCache',
+        ]
     ],
 ];
 

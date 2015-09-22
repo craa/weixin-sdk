@@ -8,9 +8,8 @@ namespace weixin\responding\handlers;
 use weixin\base\Component;
 use weixin\base\MessageHandler;
 use weixin\messages\request\Location;
-use weixin\base\Weixin;
+use weixin\Weixin;
 use weixin\messages\response\TextMsg;
-use weixin\responding\Responsor;
 
 /**
  * Class LocationHandler 位置消息处理器

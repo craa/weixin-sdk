@@ -7,10 +7,9 @@ namespace weixin\responding\handlers;
 
 use weixin\base\Component;
 use weixin\base\MessageHandler;
-use weixin\base\Weixin;
+use weixin\Weixin;
 use weixin\messages\request\Image;
 use weixin\messages\response\TextMsg;
-use weixin\responding\Responsor;
 
 /**
  * Class ImageHandler 图片消息处理器

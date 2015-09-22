@@ -7,7 +7,7 @@ namespace weixin\responding;
 
 use weixin\base\Component;
 use weixin\base\Exception;
-use weixin\base\Weixin;
+use weixin\Weixin;
 use weixin\messages\response\BaseMessage;
 use weixin\responding\encryption\ErrorCode;
 

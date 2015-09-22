@@ -9,7 +9,6 @@ use weixin\base\Component;
 use weixin\base\MessageHandler;
 use weixin\messages\response\BaseMessage;
 use weixin\messages\response\TextMsg;
-use weixin\responding\Responsor;
 use weixin\Weixin;
 use weixin\messages\request\ClickEvent;
 

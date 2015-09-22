@@ -7,7 +7,7 @@ namespace weixin\responding;
 
 use weixin\base\Application;
 use weixin\base\Model;
-use weixin\base\Weixin;
+use weixin\Weixin;
 
 /**
  * Class Responsor 微信请求响应器
