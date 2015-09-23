@@ -7,6 +7,7 @@ namespace weixin\api;
 
 use weixin\base\Application;
 use weixin\api\common\CommonAPI;
+use weixin\api\js\JsAPI;
 use weixin\base\Curl;
 
 /**
@@ -37,11 +38,21 @@ class ApiRequestor extends Application
         return $this->get('commonAPI');
     }
 
+    /**
+     * @return JsAPI
+     * @throws \weixin\base\Exception
+     */
+    public function getJsAPI()
+    {
+        return $this->get('jsAPI');
+    }
+
     public function coreComponents()
     {
         return [
             'curl' => ['class' => 'weixin\base\Curl'],
             'commonAPI' => ['class' => 'weixin\api\common\CommonAPI'],
+            'jsAPI' => ['class' => 'weixin\api\js\JsAPI'],
         ];
     }
 }

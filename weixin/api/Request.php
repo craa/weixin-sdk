@@ -41,7 +41,7 @@ class Request extends Component
     public function get($url, $data = [])
     {
         $response = $this->curl->get($url, $data);
-        if(isset($response['errcode'])){
+        if(isset($response['errcode']) && $response['errcode']!==0){
             $this->handleAPIError($response);
         }
 
