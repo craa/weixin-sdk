@@ -28,7 +28,6 @@ class JsAPI extends Request
             'access_token' => $accessToken,
             'type' => 'jsapi'
         ]);
-        echo $this->curl->url;
 
         return (new JsapiTicket())->load($data);
     }

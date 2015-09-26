@@ -369,6 +369,114 @@ class Request extends Component
     }
 
     /**
+     * Returns the currently requested absolute URL.
+     * This is a shortcut to the concatenation of [[hostInfo]] and [[url]].
+     * @return string the currently requested absolute URL.
+     */
+    public function getAbsoluteUrl()
+    {
+        return $this->getHostInfo() . $this->getUrl();
+    }
+
+    private $_hostInfo;
+
+    /**
+     * Returns the schema and host part of the current request URL.
+     * The returned URL does not have an ending slash.
+     * By default this is determined based on the user request information.
+     * You may explicitly specify it by setting the [[setHostInfo()|hostInfo]] property.
+     * @return string schema and hostname part (with port number if needed) of the request URL (e.g. `http://www.yiiframework.com`)
+     * @see setHostInfo()
+     */
+    public function getHostInfo()
+    {
+        if ($this->_hostInfo === null) {
+            $secure = $this->getIsSecureConnection();
+            $http = $secure ? 'https' : 'http';
+            if (isset($_SERVER['HTTP_HOST'])) {
+                $this->_hostInfo = $http . '://' . $_SERVER['HTTP_HOST'];
+            } else {
+                $this->_hostInfo = $http . '://' . $_SERVER['SERVER_NAME'];
+                $port = $secure ? $this->getSecurePort() : $this->getPort();
+                if (($port !== 80 && !$secure) || ($port !== 443 && $secure)) {
+                    $this->_hostInfo .= ':' . $port;
+                }
+            }
+        }
+
+        return $this->_hostInfo;
+    }
+
+    /**
+     * Sets the schema and host part of the application URL.
+     * This setter is provided in case the schema and hostname cannot be determined
+     * on certain Web servers.
+     * @param string $value the schema and host part of the application URL. The trailing slashes will be removed.
+     */
+    public function setHostInfo($value)
+    {
+        $this->_hostInfo = rtrim($value, '/');
+    }
+
+    private $_url;
+
+    /**
+     * Returns the currently requested relative URL.
+     * This refers to the portion of the URL that is after the [[hostInfo]] part.
+     * It includes the [[queryString]] part if any.
+     * @return string the currently requested relative URL. Note that the URI returned is URL-encoded.
+     * @throws Exception if the URL cannot be determined due to unusual server configuration
+     */
+    public function getUrl()
+    {
+        if ($this->_url === null) {
+            $this->_url = $this->resolveRequestUri();
+        }
+
+        return $this->_url;
+    }
+
+    /**
+     * Sets the currently requested relative URL.
+     * The URI must refer to the portion that is after [[hostInfo]].
+     * Note that the URI should be URL-encoded.
+     * @param string $value the request URI to be set
+     */
+    public function setUrl($value)
+    {
+        $this->_url = $value;
+    }
+
+    /**
+     * Resolves the request URI portion for the currently requested URL.
+     * This refers to the portion that is after the [[hostInfo]] part. It includes the [[queryString]] part if any.
+     * The implementation of this method referenced Zend_Controller_Request_Http in Zend Framework.
+     * @return string|boolean the request URI portion for the currently requested URL.
+     * Note that the URI returned is URL-encoded.
+     * @throws Exception if the request URI cannot be determined due to unusual server configuration
+     */
+    protected function resolveRequestUri()
+    {
+        if (isset($_SERVER['HTTP_X_REWRITE_URL'])) { // IIS
+            $requestUri = $_SERVER['HTTP_X_REWRITE_URL'];
+        } elseif (isset($_SERVER['REQUEST_URI'])) {
+            $requestUri = $_SERVER['REQUEST_URI'];
+            if ($requestUri !== '' && $requestUri[0] !== '/') {
+                $requestUri = preg_replace('/^(http|https):\/\/[^\/]+/i', '', $requestUri);
+            }
+        } elseif (isset($_SERVER['ORIG_PATH_INFO'])) { // IIS 5.0 CGI
+            $requestUri = $_SERVER['ORIG_PATH_INFO'];
+            if (!empty($_SERVER['QUERY_STRING'])) {
+                $requestUri .= '?' . $_SERVER['QUERY_STRING'];
+            }
+        } else {
+            throw new Exception('Unable to determine the request URI.');
+        }
+
+        return $requestUri;
+    }
+
+    /**
      * @return string the username sent via HTTP authentication, null if the username is not given
      */
     public function getAuthUser()
