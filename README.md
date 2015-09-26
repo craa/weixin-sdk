@@ -28,6 +28,10 @@ $wxApp->getResponsor()->run();
 
 //获取AccessToken
 $accessToken = $wxApp->getApiRequestor()->getCommonAPI()->getAccessToken();
+
+//加载jsAPI基本配置
+echo \weixin\widgets\ShareConfigWidget::widget(['account'=>$wxApp->getAccount(),'debug'=>true]);
+
 ```
 
 ### 框架接入
