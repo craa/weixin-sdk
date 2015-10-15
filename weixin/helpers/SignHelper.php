@@ -18,7 +18,7 @@ class SignHelper
         $str = '';
         foreach($params as $key=>$value)
         {
-            $str .= $key.'='.$value.$separator;
+            $str .= strtolower($key).'='.$value.$separator;
         }
         return $prefix.rtrim($str, '&');
     }
